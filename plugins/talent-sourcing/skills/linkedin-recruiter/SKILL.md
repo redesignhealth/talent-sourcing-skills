@@ -55,7 +55,9 @@ Install `harness.js` from this skill directory on the page and call its helpers 
 
 **35 filters.** Eight or so show in the search rail; 27 more live in **advanced search** at
 `/talent/hire/<project>/discover/recruiterSearch/advanced`. The two panels overlap but are not identical —
-**Seniority and Qualifications are rail-only**, and Qualifications is just the natural-language box.
+**Qualifications is rail-only**, and it is just the natural-language box. Seniority was rail-only
+when this was first mapped and now appears in the advanced-search panel too — check both rather than
+trusting either list to be complete.
 
 ### Ranges — these return a count for every single unit
 
@@ -102,7 +104,13 @@ approximation — state the method openly and never use it to exclude anyone.
 ### Locations is a 3 × 3 matrix
 
 **Priority:** Must have · Can have · **Doesn't have**. **Preference:** Current · Open to relocate only ·
-Current or open to relocate. Set through the chip dropdown; keyboard `R` requires and `N` negates, though
+Current or open to relocate.
+
+**Open to relocate is candidate-entered, names a destination, and is independent of current location.**
+Proven by contradiction: current location = country A *and* open to relocate = country B returns 92K
+rather than zero. And it is **not a relocation measure** — setting only open-to-relocate for one country
+returned 11M against 12M currently in it, which is not a credible relocation rate, so the filter appears
+to include people already there. Never report an open-to-relocate count as inbound interest. Set through the chip dropdown; keyboard `R` requires and `N` negates, though
 neither is reliable through automation.
 
 **"Can have" still filters.** A lone Can-have chip behaves as a requirement. Treat every location term as
@@ -114,6 +122,13 @@ restrictive regardless of priority.
 but past **company** or **schools attended** combined with a **negated current location** measures
 "worked there and left" exactly. This replaces bracketed-range workarounds for any population with an
 employer or school hook.
+
+**But a school hook imports that institution's international alumni.** Using `Schools attended` as a
+proxy for someone's origin fails wherever the institution is majority-international: one measured run
+returned 506 people of whom roughly none matched the intended origin, because two of the five schools
+draw mostly foreign students. It is a **precision** problem, not a volume problem, so widening the pool
+makes it worse. Pick institutions whose intake matches what you are trying to measure, and corroborate
+with a second signal such as `Spoken languages` at Native or Bilingual.
 
 ### Industries: a three-level taxonomy with three misfiled branches
 
@@ -257,17 +272,46 @@ Set filters with `browser_type` and `browser_click` against fresh snapshot refs,
 ### The gotchas, all of them measured
 
 1. **Re-find elements after every click.** Nodes detach on re-render; a held reference throws.
-2. **Type through the real input path**, not by assigning `.value` — native assignment does not fire the
+2. **Every write must be a real Playwright click, never `element.click()` inside a `browser_evaluate`.**
+   Ember ignores untrusted synthetic events, so the write reports success and does nothing. This caused
+   four consecutive silent failures in one session — job-title boolean, spoken languages, company sizes
+   and the schools typeahead all no-oped. Resolve the target's element id inside an evaluate if you must,
+   then click it with the browser click tool. **Two exceptions genuinely work from inside an evaluate**,
+   because they are real routed elements: **`<a>` facet options** (Seniority levels are anchors carrying
+   their scoped counts) and **`Remove <value>` buttons**.
+3. **Type through the real input path**, not by assigning `.value` — native assignment does not fire the
    typeahead and the selection silently fails. Ranges are the exception, and even there verify the chip.
-3. **Verify state after every mutation.** Read the applied chips and the count. Several writes in testing
+4. **Typeahead element ids are regenerated on every panel open** — `typeahead-input-ember5579` becomes
+   `typeahead-input-ember16785`. Re-read the id each time; never cache one across a panel close.
+5. **Verify state after every mutation.** Read the applied chips and the count. Several writes in testing
    appeared to succeed and had not applied.
-4. **Histograms are ARIA-only tables** — query `[role="row"]` and `[role="cell"]`, not `<tr>`/`<td>`.
-5. **Boolean chips come back HTML-escaped** (`&amp;quot;`). Unescape before logging.
-6. **Waits:** ~1.5s after opening a facet, 6-7s after `Search`. Prefer `browser_wait_for` on the count
+6. **Histograms are ARIA-only tables** — query `[role="row"]` and `[role="cell"]`, not `<tr>`/`<td>`.
+7. **Boolean chips come back HTML-escaped** (`&amp;quot;`). Unescape before logging.
+8. **Waits:** ~1.5s after opening a facet, 6-7s after `Search`. Prefer `browser_wait_for` on the count
    element changing where you can.
-7. **The results page renders an "All recommended matches" module whose profiles are not results.** It
+9. **The results page renders an "All recommended matches" module whose profiles are not results.** It
    has injected unrelated people into page text. Scope extraction to the result list.
-8. **Close the browser when the batch is done.** The profile lock blocks the next run otherwise.
+10. **Close the browser when the batch is done.** The profile lock blocks the next run otherwise.
+
+### Selectors
+
+`harness.js` already encodes these; they are here for when you need to go beyond it.
+
+| thing | how |
+|---|---|
+| Advanced panel | `section.advanced-search` |
+| Facet label | `section.advanced-search p` matching the facet name exactly |
+| Applied chip | `[role="group"]` with `aria-label` starting `Must have,` / `Can have,` / `Does not have,` |
+| Remove a chip | `button[aria-label="Remove <value>"]` |
+| Chip priority menu | `button[aria-label="Dropdown menu for updating <value>"]`, then the menu item |
+| Histogram | ARIA-only table — `[role="row"]` / `[role="cell"]` |
+| Range | two `input[type=number]` plus two `input[type=range]` (`Minimum`, `Maximum`), then `Update` |
+| Result count | `/([\d.,]+[KM]?\+?)\s*results?/i` against `body.innerText` |
+| Result card | `[data-test-paginated-profile-list-item-container]`, name at `[data-test-row-lockup-full-name]` |
+
+**The result list is virtualized** — roughly 2 of 25 cards are in the DOM at rest. If you have been asked
+to extract one, scroll and accumulate keyed on the profile id from the `/talent/profile/<id>` href, and
+stop on a settle check rather than a fixed iteration count: a fixed count returned 22 of 25.
 
 ## Reproducibility
 
@@ -277,7 +321,29 @@ Set filters with `browser_type` and `browser_click` against fresh snapshot refs,
 - A **new** search cannot be composed as a URL. So the reproducibility record is **the written recipe plus
   the `searchHistoryId`** — log both, along with a plain-English description of the intent and the count.
 
+**Restoring from history is lossy, so the recipe is the record and the id is only a convenience.**
+Reopening a `searchHistoryId` restored titles, location, seniority and years but silently dropped four
+`Schools` chips, taking a 223-result search to 5.5M+. **Always re-read the applied chips and the count
+after a restore** and compare both against the logged recipe.
+
+**A project's search state is shared across sessions.** Two tabs on the same account do not hold
+independent filter state, so a search run in one overwrites what another configured. Saving to the
+project is the only session-independent handoff.
+
 ## Reporting
 
 Give each figure its filter recipe, its date, and one stated limitation. Where two sources disagree,
 report both with the ratio and say which is authoritative — never average and never pick silently.
+
+## Not established
+
+Everything above was measured. These were not, so do not assert them — check, and say you checked.
+
+- **The range upper-bound rule** (that `8 – 15` behaves as 8–14) has one observation and no attended
+  confirmation.
+- **Company types** did not render on probe.
+- **Whether breakdown or facet values are clickable as filters** is unknown.
+- **Whether the natural-language input composes with structured filters**, and what it does to a count.
+- **Custom filters** were seen once in the rail and not since.
+- **Spoken-language proficiency tiers** would not register through automation.
+- **Recruiting activity values** need the sub-dropdown opened and were never enumerated.
