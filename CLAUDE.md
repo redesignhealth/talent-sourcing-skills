@@ -69,8 +69,9 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 A Claude Code plugin marketplace containing one plugin, `talent-sourcing`, with three skills. There is no
 application code — markdown, JSON manifests, and one browser-side JS harness.
 
-**Layout mirrors `rh-claude-plugins` on purpose.** `plugins/talent-sourcing/` is shaped so that moving it
-into that repo later is a directory copy plus one entry in its `marketplace.json`. Do not restructure it.
+**The layout is the standard multi-plugin marketplace shape, on purpose.** `plugins/talent-sourcing/` is
+self-contained so it can be folded into a larger marketplace repo as a directory copy plus one entry in
+that repo's `marketplace.json`. Do not restructure it.
 
 **Verify changes by loading the plugin, not by reading it:**
 
@@ -90,25 +91,3 @@ own server.
 property of LinkedIn Recruiter or Juicebox that any user would hit. Keep specifics of whatever sourcing
 project prompted a change — company names, country names, role targets — out of them. Where a measurement
 needs a concrete example, use neutral labels and keep the numbers.
-
-## RH Tech Guide
-
-This project follows the [Redesign Health Technology Guide](https://github.com/redesignhealth/rh-tech-guide)
-for all technical decisions. Run `/rh-tech-guide` to load relevant guidance for any topic.
-
-**Always consult `/rh-tech-guide` before deciding on:**
-- Stack choices (frontend framework, backend language, database)
-- Authentication and authorization patterns
-- Deployment approach (Dokploy vs Terraform+AWS)
-- CI/CD setup
-- Observability and logging
-- Security and secrets management
-- Agent-first CLI/MCP design
-
-**Common failure patterns**: `~/.claude/rh-tech-guide/common-failure-modes/README.md`
-indexes recurring code-review failure patterns, auto-updated weekly — check it before
-writing or reviewing code if your task might overlap with something already
-documented there. Run `/rh-tech-guide` first if that path doesn't exist yet, to sync
-the tech guide.
-
-<!-- rh-tech-guide-initialized -->

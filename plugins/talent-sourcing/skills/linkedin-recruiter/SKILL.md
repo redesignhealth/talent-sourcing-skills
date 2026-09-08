@@ -15,10 +15,13 @@ established by driving it directly rather than reading its documentation.
 one browser profile means one session, and a running Chrome holds the lock. Ask them to close it rather
 than killing the process.
 
-**Seat risk is real.** LinkedIn prohibits automated access and Recruiter seats get rate-limited or
-suspended for it. Work in **attended batches of 15 to 20 searches with pauses**, counts and aggregates
-only. Do not scrape profile lists unless the user has explicitly accepted that risk for a specific pool.
-Say what you are about to run before running a long batch.
+**Confirm authorisation before automating.** Automated access to Recruiter is restricted by LinkedIn's
+terms and by most organisations' own policy, and seats can be rate-limited or suspended. Whether a given
+run is permitted is the user's call to make — ask, and do not assume it on their behalf.
+
+**Operate conservatively either way.** Work in **attended batches of 15 to 20 searches with pauses**,
+reading counts and aggregates only. Do not extract profile lists unless the user has explicitly asked for
+it for a specific pool. Say what you are about to run before running a long batch.
 
 **Work inside a Recruiter project.** Searches are then recoverable from history.
 

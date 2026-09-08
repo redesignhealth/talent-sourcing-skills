@@ -51,10 +51,11 @@ Two consequences:
 
 ## Before your first Recruiter run
 
-LinkedIn prohibits automated access and Recruiter seats get rate-limited or suspended for it. The skill
-works in **attended batches of 15 to 20 searches**, counts and aggregates only, and does not scrape
-profile lists unless you have explicitly accepted that risk for a specific pool. Read that section before
-you start.
+Automated access to Recruiter is restricted by LinkedIn's terms and by most organisations' own policy,
+and seats can be rate-limited or suspended. Confirm what you are permitted to do before you start.
+
+The skill is built to operate conservatively either way: **attended batches of 15 to 20 searches**, counts
+and aggregates only, and no profile-list extraction unless you ask for it explicitly.
 
 Juicebox carries no equivalent risk. Searching, counting and Insights are free; only revealing contact
 details and exporting profiles cost credits.
@@ -72,8 +73,8 @@ plugins/talent-sourcing/
     └── juicebox/{SKILL.md, checks.md}
 ```
 
-This mirrors `rh-claude-plugins`, so moving the plugin there later is a copy of
-`plugins/talent-sourcing/` plus one entry in that repo's `marketplace.json`.
+This is the standard multi-plugin marketplace layout, so folding `plugins/talent-sourcing/` into a
+larger marketplace repo later is a directory copy plus one entry in that repo's `marketplace.json`.
 
 ## Not done yet
 
