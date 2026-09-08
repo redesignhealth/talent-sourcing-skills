@@ -11,11 +11,15 @@ assume it.
 
 ## The login and profile model
 
-The Playwright MCP server in this plugin runs with:
+This plugin ships its own Playwright MCP server, named **`sourcing-browser`**, running with:
 
 ```
 --browser chrome --user-data-dir ${HOME}/.cache/talent-sourcing/chrome-profile
 ```
+
+**Use the `sourcing-browser` tools, not any other browser server.** If the official `playwright` plugin is
+also enabled you will see two sets of identically-named browser tools; the other set uses a throwaway
+profile and will land you on a login page. Check the tool prefix before the first call, not after.
 
 This matters more than it looks. **Without `--user-data-dir`, Playwright MCP creates a throwaway profile
 on every start** and every login is lost. The persistent directory is what lets a Recruiter or Juicebox

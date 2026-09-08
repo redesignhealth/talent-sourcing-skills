@@ -44,8 +44,10 @@ Two consequences:
 
 - **The first run on each tool lands on a login page.** Log in yourself in the window that opens; it
   sticks from then on. Nobody is asked for credentials and none are stored in this repo.
-- **If you already have the official `playwright` plugin enabled, disable it** — two servers named
-  `playwright` will collide, and the official one has the temp-profile default this exists to fix.
+- **The server is named `sourcing-browser`, not `playwright`.** That is deliberate: if the official
+  `playwright` plugin is also enabled, both expose identically-named browser tools and the wrong one gets
+  picked — which was observed during testing, and fails silently by landing on a login page. The distinct
+  name lets the skills say which server to use. You do not need to disable anything.
 
 ## Before your first Recruiter run
 
