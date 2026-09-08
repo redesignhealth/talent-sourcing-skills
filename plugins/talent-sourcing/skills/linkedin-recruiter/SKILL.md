@@ -151,7 +151,9 @@ share of the pool.
   Services, with Computer and Network Security as an L3 beneath it.
 
 **Expand the tree and read the parent before selecting anything.** The label does not tell you what the
-filter returns.
+filter returns. **`industries.md` in this skill directory is the branch map** — where the commonly-wanted
+healthcare, technology, consulting, research and adjacent branches actually sit, with their levels and
+parents. Read it before choosing industry filters rather than guessing at labels.
 
 Three more caveats worth carrying:
 

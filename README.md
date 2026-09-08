@@ -28,7 +28,7 @@ To try it from a local clone instead:
 | Skill | Covers |
 |---|---|
 | `browser-automation` | How to drive a logged-in web app through Playwright: the profile and login model, the snapshot-act-verify loop, reading bulk data cheaply, and the re-render traps. The other two assume it. |
-| `linkedin-recruiter` | All 35 Recruiter filters, the facet-reads-are-free principle, the containment and exclusivity rules that catch bad counts, and a browser harness (`harness.js`) that reads several facets per round trip. |
+| `linkedin-recruiter` | All 35 Recruiter filters, the facet-reads-are-free principle, the containment and exclusivity rules that catch bad counts, the V2 industry taxonomy and its misfiled branches (`industries.md`), and a browser harness (`harness.js`) that reads several facets per round trip. |
 | `juicebox` | The 16 filter sections, the 1M count ceiling, why criteria never narrow a pool, Insights as a free market map, and a pre-flight checklist (`checks.md`) to run before quoting any number. |
 
 ## The Playwright dependency
@@ -69,7 +69,7 @@ plugins/talent-sourcing/
 ├── .mcp.json                       the Playwright server and its profile
 └── skills/
     ├── browser-automation/SKILL.md
-    ├── linkedin-recruiter/{SKILL.md, harness.js}
+    ├── linkedin-recruiter/{SKILL.md, harness.js, industries.md}
     └── juicebox/{SKILL.md, checks.md}
 ```
 
