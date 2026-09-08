@@ -104,14 +104,14 @@ approximation — state the method openly and never use it to exclude anyone.
 ### Locations is a 3 × 3 matrix
 
 **Priority:** Must have · Can have · **Doesn't have**. **Preference:** Current · Open to relocate only ·
-Current or open to relocate.
+Current or open to relocate. Set through the chip dropdown; keyboard `R` requires and `N` negates, though
+neither is reliable through automation.
 
 **Open to relocate is candidate-entered, names a destination, and is independent of current location.**
 Proven by contradiction: current location = country A *and* open to relocate = country B returns 92K
 rather than zero. And it is **not a relocation measure** — setting only open-to-relocate for one country
 returned 11M against 12M currently in it, which is not a credible relocation rate, so the filter appears
-to include people already there. Never report an open-to-relocate count as inbound interest. Set through the chip dropdown; keyboard `R` requires and `N` negates, though
-neither is reliable through automation.
+to include people already there. Never report an open-to-relocate count as inbound interest.
 
 **"Can have" still filters.** A lone Can-have chip behaves as a requirement. Treat every location term as
 restrictive regardless of priority.
