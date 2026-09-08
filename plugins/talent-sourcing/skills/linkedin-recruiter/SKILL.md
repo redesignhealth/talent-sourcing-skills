@@ -115,10 +115,56 @@ but past **company** or **schools attended** combined with a **negated current l
 "worked there and left" exactly. This replaces bracketed-range workarounds for any population with an
 employer or school hook.
 
+### Industries: a three-level taxonomy with three misfiled branches
+
+Industries (which supports `Exclude`) run on a NAICS-aligned **V2** taxonomy; the legacy V1 names are
+gone. Two mechanics decide what a selection returns.
+
+**Level sets breadth.**
+
+| you select | you get |
+|---|---|
+| nothing | all candidates |
+| **L1 only** | everything mapped to that L1 **and its related L2s and below** |
+| L1 + L2 | that L1 **and** that L2 and below |
+| **L2 only** | that L2 and below |
+| **L3 only** | that L3 and below |
+
+An L1 is a wide net. For a denominator you can defend, select the specific L2s you mean. Measure the gap
+rather than assuming it — on one technology pool L1 against the equivalent L2 set differed by only 3%
+(340K vs 330K), which is small enough that the level choice was not the thing to worry about there.
+
+**Members with no industry set are absent from industry-filtered results entirely.** So an
+industry-filtered count is a subset of the unfiltered one for two independent reasons — the filter, and
+missing data — and the two are not separable from the count alone. Never treat an industry share as a
+share of the pool.
+
+**Three branches sit where nobody looks for them:**
+
+- **"Wellness and Fitness Services" is not healthcare.** It sits under Entertainment Providers >
+  Recreational Facilities, so including it in a healthcare pool returns gyms and spas. This has silently
+  inflated a healthcare count that was only caught afterwards.
+- **"Public Health" is not in the Hospitals and Health Care tree.** It is L3 under Government
+  Administration > Health and Human Services — where public-sector health staff plausibly classify
+  themselves. A healthcare search that omits it misses them completely.
+- **"IT Services and IT Consulting" is not under the technology L1.** It sits under Professional
+  Services, with Computer and Network Security as an L3 beneath it.
+
+**Expand the tree and read the parent before selecting anything.** The label does not tell you what the
+filter returns.
+
+Three more caveats worth carrying:
+
+- **Industry is self-selected by the member**, and describes their company *or the kind of work they do*.
+  It is not a reliable employer classification — a software engineer at a hospital may have picked either.
+- **The V2 rollout is gradual.** LinkedIn says Recruiter's options may not yet include the full V2 list.
+  If a label does not autocomplete on your seat, record that rather than substituting a similar-looking one.
+- **V1 counts are not comparable to V2 counts.** Anything quoted from before the transition needs re-running.
+
 ### Also present
 
-Industries (supports `Exclude`) · Postal code with radius 1/5/10/25/50/100/200 miles · Current companies ·
-Past companies · Company followers · Company types · Recruiting activity by your team · In ATS · Tags ·
+Postal code with radius 1/5/10/25/50/100/200 miles · Current companies · Past companies ·
+Company followers · Company types · Recruiting activity by your team · In ATS · Tags ·
 Projects · Notes · natural-language input.
 
 ---
