@@ -1,0 +1,8 @@
+{
+  "name": "talent-sourcing",
+  "description": "Drive LinkedIn Recruiter and Juicebox through a browser to size and map talent pools — each tool's filter inventory, which counts are free, and the validation rules that stop it reporting a silently wrong number. Includes a Playwright MCP server configured with a persistent browser profile so tool logins survive between sessions.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Shonik Agarwal"
+  }
+}

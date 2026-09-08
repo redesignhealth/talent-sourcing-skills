@@ -1,0 +1,12 @@
+{
+  "playwright": {
+    "command": "npx",
+    "args": [
+      "@playwright/mcp@latest",
+      "--browser", "chrome",
+      "--user-data-dir", "${HOME}/.cache/talent-sourcing/chrome-profile",
+      "--timeout-action", "15000",
+      "--timeout-navigation", "60000"
+    ]
+  }
+}

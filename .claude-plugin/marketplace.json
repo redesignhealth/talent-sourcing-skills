@@ -1,0 +1,19 @@
+{
+  "name": "talent-sourcing-skills",
+  "owner": {
+    "name": "Shonik Agarwal"
+  },
+  "metadata": {
+    "description": "Skills for sizing and mapping talent pools with LinkedIn Recruiter and Juicebox"
+  },
+  "plugins": [
+    {
+      "name": "talent-sourcing",
+      "source": "./plugins/talent-sourcing",
+      "description": "Drive LinkedIn Recruiter and Juicebox through a browser to size and map talent pools. Carries each tool's full filter inventory, which counts are free, the validation rules that stop it reporting a silently wrong number, and a bundled Playwright MCP server configured with a persistent profile so logins survive between sessions.",
+      "version": "1.0.0",
+      "category": "research",
+      "author": { "name": "Shonik Agarwal" }
+    }
+  ]
+}
