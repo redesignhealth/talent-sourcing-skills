@@ -9,7 +9,7 @@ established by driving the tools directly, not by reading their documentation.
 ## Install
 
 ```
-/plugin marketplace add shonik-rh/talent-sourcing-skills
+/plugin marketplace add redesignhealth/talent-sourcing-skills
 /plugin install talent-sourcing@talent-sourcing-skills
 ```
 
